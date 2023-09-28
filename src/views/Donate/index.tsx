@@ -111,7 +111,7 @@ export const BasicsView: FC = () => {
                     )}
                   </div>
                 )}
-                <div className="text-right">
+                <div className="text-middle">
                   {hasInput && (
                     <button
                       onClick={handleConfirmClick}
