@@ -1,2 +1,2 @@
 export { HomeView } from "./Fundraiser"
-export { BasicsView } from "./Donate"
+export { BasicsView } from "./home"
