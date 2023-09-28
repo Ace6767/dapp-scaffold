@@ -84,7 +84,7 @@ const rootStyle: React.CSSProperties = {
   position: 'relative', // Added to position the logo and button
 };
 
-// Styles for the header text "CoinForCost"
+// Styles for the header text "CoinForCause"
 const headerStyle: React.CSSProperties = {
   position: 'absolute',
   top: '20px',
@@ -128,7 +128,7 @@ const starStyle: React.CSSProperties = {
 return (
   <div className="md:hero mx-auto p-4" style={rootStyle}>
     <div className="md:hero-content flex flex-col">
-      <div style={headerStyle}>CoinForCost</div>
+      <div style={headerStyle}>CoinForCause</div>
       <div style={buttonContainerStyle}>
         <button
           onClick={openDonatorModal}
