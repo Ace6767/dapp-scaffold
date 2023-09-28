@@ -135,7 +135,7 @@ return (
           style={buttonStyle}
           className="bg-indigo-500 text-white font-semibold py-2 px-4 rounded hover:bg-indigo-600 cursor-pointer"
         >
-          I want to become a donator
+          I want to become a fundraiser
           <span style={starStyle} role="img" aria-label="Star Icon">
             ⭐️
           </span>
