@@ -176,7 +176,7 @@ return (
             />
           </div>
           <div className="mb-4">
-            <label className="block text-gray-600">Snap report:</label>
+            <label className="block text-gray-600">Please snap your report as a proof of your description:</label>
             <input
               type="file"
               name="snapReportImage"
