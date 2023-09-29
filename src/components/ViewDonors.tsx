@@ -40,3 +40,12 @@ export async function viewDonors(address: string): Promise<TransactionDetails[]>
   return transactionDetails;
 }
 
+
+export async function viewAmountCollected(address: string): Promise<number> {
+    const donorDetails: TransactionDetails[] = await viewDonors(address);
+    let totalAmount = 0;
+    for (let i = 0; i < donorDetails.length; i++) {
+      totalAmount += donorDetails[i].amount;
+    }
+    return totalAmount;
+  }
