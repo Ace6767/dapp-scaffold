@@ -1,13 +1,15 @@
 import React, { FC, useState } from 'react';
 
-// Define an interface for the image data
+interface BasicsViewProps {
+  openPopup: () => void;
+}
+
 interface ImageData {
   name: string;
   src: string;
   link: string;
 }
 
-// Define an array of image data
 const imageData: ImageData[] = [
   {
     name: 'Bob Ross',
@@ -26,7 +28,7 @@ const imageData: ImageData[] = [
   },
 ];
 
-export const BasicsView: FC = () => {
+export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
 
   const handleImageClick = (image: ImageData) => {
@@ -65,10 +67,8 @@ export const BasicsView: FC = () => {
               <p className="mt-2 text-sm">
                 DESCRIPTION WRITTEN HERE
               </p>
-              <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                <a href={selectedImage.link} target="_blank" rel="noopener noreferrer">
-                  Page function (edited to send money later?)
-                </a>
+              <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={openPopup}>
+                Donate Now
               </button>
               <button
                 className="mt-4 ml-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"

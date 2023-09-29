@@ -1,23 +1,15 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 
-export const Donate: FC = () => {
-  const [isPopupVisible, setPopupVisible] = useState(false);
+interface DonateProps {
+  closePopup: () => void;
+}
+
+export const Donate: FC<DonateProps> = ({ closePopup }) => {
   const [donationAmount, setDonationAmount] = useState('');
   const [hasInput, setHasInput] = useState(false);
   const [extraChargesAmount, setExtraChargesAmount] = useState(0);
   const [gasFee, setGasFee] = useState(0);
   const [showCostBreakdown, setShowCostBreakdown] = useState(false);
-
-  const openPopup = () => {
-    setPopupVisible(true);
-    setDonationAmount('');
-    setGasFee(0);
-    setShowCostBreakdown(false);
-  };
-
-  const closePopup = () => {
-    setPopupVisible(false);
-  };
 
   const handleDonationInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const amount = e.target.value;
@@ -65,19 +57,10 @@ export const Donate: FC = () => {
     <div className="md:hero mx-auto p-4" style={rootStyle}>
       <div className="md:hero-content flex flex-col">
         <div className="text-center">
-          <button
-            onClick={openPopup}
-            className="bg-indigo-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-600 cursor-pointer shadow-md"
-          >
-            Donate Now
-          </button>
-          {isPopupVisible && (
+          {/* Donation popup content */}
+          {showCostBreakdown && (
             <div className="fixed inset-0 flex items-center justify-center z-50">
-              <div
-                className="bg-white p-6 shadow-lg rounded-lg relative"
-                onMouseEnter={() => setShowCostBreakdown(true)}
-                onMouseLeave={() => setShowCostBreakdown(false)}
-              >
+              <div className="bg-white p-6 shadow-lg rounded-lg relative">
                 <button
                   onClick={closePopup}
                   id="close-btn"
@@ -126,6 +109,7 @@ export const Donate: FC = () => {
               </div>
             </div>
           )}
+          {/* End of Donation popup content */}
         </div>
       </div>
     </div>
