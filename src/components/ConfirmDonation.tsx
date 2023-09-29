@@ -5,8 +5,9 @@ import { notify } from "../utils/notifications";
 
 interface SendTransactionProps {
     amount: number;
+    ReceiverAddress: string;
   }
-export const ConfirmDonation: FC<SendTransactionProps> = ({ amount }) => {
+export const ConfirmDonation: FC<SendTransactionProps> = ({ amount, ReceiverAddress }) => {
     const { connection } = useConnection();
     const { publicKey, sendTransaction } = useWallet();
 
@@ -19,7 +20,7 @@ export const ConfirmDonation: FC<SendTransactionProps> = ({ amount }) => {
 
         let signature: TransactionSignature = '';
         try {
-            const recipientPublicKey = new PublicKey('9MDjubwJdpYNfJWE77NSpSuYbWA3eUnGWAy4K5wzLj5r');
+            const recipientPublicKey = new PublicKey(ReceiverAddress);
             // Create instructions to send, in this case a simple transfer
             const instructions = [
                 SystemProgram.transfer({
