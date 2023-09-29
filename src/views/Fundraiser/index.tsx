@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 export const HomeView: FC = () => {
   // State for controlling the donation form visibility
@@ -8,6 +8,7 @@ export const HomeView: FC = () => {
   const [donationInfo, setDonationInfo] = useState({
     name: '',
     email: '',
+    walletAddress: '',
     description: '',
     snapReportImage: null,
     fundTarget: 0,
@@ -37,17 +38,17 @@ export const HomeView: FC = () => {
     });
   };
 
-  // Function to handle donation submission
-  const handleDonationSubmit = () => {
-    // Handle the donation submission logic here
-    // You can access the donationInfo state for the form data
-    // After submission, you can clear the form or perform other actions
-    // For now, we will just log the data
-    console.log(donationInfo);
+// Function to handle donation submission
+const handleDonationSubmit = () => {
+  const confirmation = window.confirm("Thank you for your donation."); // Display the confirmation dialog
 
-    // Close the form
-    setDonationFormVisible(false);
-  };
+  if (confirmation) {
+      // If the user clicks OK in the confirmation dialog, reload the page
+      window.location.reload();
+  } else {
+      // If the user clicks Cancel, you can perform some other action or leave it empty
+  }
+};
 
   // Styles for input elements
   const inputStyle = {
@@ -130,6 +131,16 @@ export const HomeView: FC = () => {
             />
           </div>
           <div className="mb-6">
+            <label className="block text-gray-600" style={{ color: 'black', fontWeight: 'bold' }}>Wallet Address:</label>
+            <input
+              type="text"
+              name="walletAddress"
+              value={donationInfo.walletAddress}
+              onChange={handleInputChange}
+              style={inputStyle}
+            />
+          </div>
+          <div className="mb-6">
             <label className="block text-gray-600" style={{ color: 'black', fontWeight: 'bold' }}>Description of the fundraiser:</label>
             <input
               name="description"
@@ -164,7 +175,7 @@ export const HomeView: FC = () => {
               type="file"
               name="featuredImage"
               accept="image/*"
-              onChange={handleInputChange}
+              onChange={handleImageUpload}
               style={inputStyle}
             />
           </div>
@@ -181,5 +192,3 @@ export const HomeView: FC = () => {
     </div>
   );
 };
-
-export default HomeView;
