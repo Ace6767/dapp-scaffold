@@ -1,15 +1,18 @@
 import React, { FC, useState } from 'react';
 
+// Define the BasicsViewProps interface
 interface BasicsViewProps {
   openPopup: () => void;
 }
 
+// Define the ImageData interface
 interface ImageData {
   name: string;
   src: string;
   link: string;
 }
 
+// Define an array of image data
 const imageData: ImageData[] = [
   {
     name: 'Bob Ross',
@@ -28,33 +31,52 @@ const imageData: ImageData[] = [
   },
 ];
 
-
+// Define the BasicsView component
 export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
+  // State to track the selected image
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
+
+  // State for controlling the donation popup
   const [isDonatePopupOpen, setIsDonatePopupOpen] = useState(false);
+
+  // State to store donation amount input
   const [donationAmount, setDonationAmount] = useState('');
+
+  // State to track whether the user has entered an input
   const [hasInput, setHasInput] = useState(false);
+
+  // State to store extra charges and gas fee
   const [extraChargesAmount, setExtraChargesAmount] = useState(0);
   const [gasFee, setGasFee] = useState(0);
+
+  // State to show/hide the cost breakdown
   const [showCostBreakdown, setShowCostBreakdown] = useState(false);
 
+  // State to store wallet address input
+  const [walletAddress, setWalletAddress] = useState('');
+
+  // Handle clicking on an image
   const handleImageClick = (image: ImageData) => {
     setSelectedImage(image);
   };
 
+  // Handle closing the image modal
   const handleModalClose = () => {
     setSelectedImage(null);
     setIsDonatePopupOpen(false);
   };
 
+  // Handle clicking the "Donate Now" button
   const handleDonateClick = () => {
     setIsDonatePopupOpen(true);
   };
 
+  // Handle donation amount input changes
   const handleDonationInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const amount = e.target.value;
     setDonationAmount(amount);
 
+    // Calculate gas fee and extra charges based on the input amount
     const parsedAmount = parseFloat(amount);
     if (!isNaN(parsedAmount) && parsedAmount > 0) {
       setHasInput(true);
@@ -69,17 +91,36 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
     }
   };
 
+  // Handle wallet address input changes
+  const handleWalletInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const address = e.target.value;
+    setWalletAddress(address);
+  };
+
   const handleConfirmClick = () => {
+    // Check if wallet address is provided
+    if (walletAddress.trim() === '') {
+      alert('Please enter your wallet address.');
+      return;
+    }
+  
+    // Calculate the final cost
     const parsedAmount = parseFloat(donationAmount);
     if (!isNaN(parsedAmount) && parsedAmount > 0) {
-      // Don't close the modal here
       const finalCost = parsedAmount + gasFee + extraChargesAmount;
-      alert(`${finalCost.toFixed(4)} sol has been transferred successfully.`);
+  
+      // Display the success message
+      alert(`${finalCost.toFixed(4)} sol has been successfully transferred.`);
+  
+      // You can perform additional actions here if needed
+  
+      // Reload the page
+      window.location.reload();
     } else {
       alert('Please enter a valid donation amount.');
     }
   };
-
+  
   return (
     <div style={{ height: '100vh', overflow: 'hidden' }}>
       <div className="flex flex-wrap justify-center">
@@ -98,7 +139,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
 
       {selectedImage && (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-4 rounded-lg relative">
+          <div className="bg-white p-5 rounded-lg relative">
             <img
               src={selectedImage.src}
               alt={selectedImage.name}
@@ -125,7 +166,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
 
       {isDonatePopupOpen && (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-4 rounded-lg relative">
+          <div className="bg-white p-5 rounded-lg relative">
             <h2 className="text-2xl font-semibold mb-4 text-indigo-600">Donation Information</h2>
             <div className="mb-4">
               <label className="block text-gray-600">Donation Amount:</label>
@@ -134,6 +175,17 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
                 id="donation-input"
                 value={donationAmount}
                 onChange={handleDonationInputChange}
+                className="w-full border border-black rounded-lg px-4 py-2"
+                style={{ color: 'black' }}
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-600">Wallet Address:</label>
+              <input
+                type="text"
+                id="wallet-input"
+                value={walletAddress}
+                onChange={handleWalletInputChange}
                 className="w-full border border-black rounded-lg px-4 py-2"
                 style={{ color: 'black' }}
               />
@@ -160,7 +212,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
                 <button
                   onClick={handleConfirmClick}
                   id="confirm-btn"
-                  className="bg-indigo-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-600 cursor-pointer shadow-md"
+                  className="absolute bottom-0 left-0 mb-0 m1-2 bg-indigo-600 text-white font-bold py-1 px-2 rounded cursor-pointer"
                 >
                   Confirm Donation
                 </button>
@@ -168,7 +220,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             </div>
             <button
               onClick={handleModalClose}
-              className="absolute bottom-0 right-0 mb-8 mr-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded cursor-pointer"
+              className="absolute bottom-0 right-0 mb-0 mr-0 bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded cursor-pointer"
             >
               Close
             </button>
