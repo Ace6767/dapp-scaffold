@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 
 export const HomeView: FC = () => {
   // State for controlling the donation form visibility
@@ -8,6 +8,7 @@ export const HomeView: FC = () => {
   const [donationInfo, setDonationInfo] = useState({
     name: '',
     email: '',
+    walletAddress: '',
     description: '',
     snapReportImage: null,
     fundTarget: 0,
@@ -37,17 +38,12 @@ export const HomeView: FC = () => {
     });
   };
 
-  // Function to handle donation submission
-  const handleDonationSubmit = () => {
-    // Handle the donation submission logic here
-    // You can access the donationInfo state for the form data
-    // After submission, you can clear the form or perform other actions
-    // For now, we will just log the data
-    console.log(donationInfo);
-
-    // Close the form
-    setDonationFormVisible(false);
-  };
+// Function to handle donation submission
+const handleDonationSubmit = () => {
+    // Reset the webpage
+    window.location.reload();
+  
+};
 
   // Styles for input elements
   const inputStyle = {
@@ -61,22 +57,21 @@ export const HomeView: FC = () => {
     fontWeight: 'bold',
   };
 
-  // Styles for the root container with background image
-  const rootStyle: React.CSSProperties = {
-    backgroundImage: `url('https://images.unsplash.com/photo-1663497653290-1b8f327096f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80')`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundAttachment: 'fixed',
-    width: '100vw',
-    minHeight: '100vh',
-    overflowX: 'hidden',
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column', // Center items vertically
-  };
-
+ // Styles for the root container with background image
+ const rootStyle: React.CSSProperties = {
+  backgroundImage: `url('https://images.unsplash.com/photo-1663497653290-1b8f327096f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80')`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundAttachment: 'fixed',
+  width: '100vw',
+  minHeight: '100vh',
+  overflowX: 'hidden',
+  position: 'relative',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column', // Center items vertically
+};
   // Styles for the footer
   const footerStyle: React.CSSProperties = {
     backgroundColor: 'rgba(0, 0, 0, 0.9)',
@@ -130,6 +125,16 @@ export const HomeView: FC = () => {
             />
           </div>
           <div className="mb-6">
+            <label className="block text-gray-600" style={{ color: 'black', fontWeight: 'bold' }}>Wallet address:</label>
+            <input
+              type="Walletaddress"
+              name="Walletaddress"
+              value={donationInfo.walletAddress}
+              onChange={handleInputChange}
+              style={inputStyle}
+            />
+          </div>
+          <div className="mb-6">
             <label className="block text-gray-600" style={{ color: 'black', fontWeight: 'bold' }}>Description of the fundraiser:</label>
             <input
               name="description"
@@ -164,7 +169,7 @@ export const HomeView: FC = () => {
               type="file"
               name="featuredImage"
               accept="image/*"
-              onChange={handleInputChange}
+              onChange={handleImageUpload}
               style={inputStyle}
             />
           </div>
@@ -181,5 +186,3 @@ export const HomeView: FC = () => {
     </div>
   );
 };
-
-export default HomeView;
