@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Donate } from 'views/Donate';
+
 interface BasicsViewProps {
   openPopup: () => void;
 }
@@ -30,7 +30,6 @@ const imageData: ImageData[] = [
 
 export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
-  const [isDonatePopupOpen, setIsDonatePopupOpen] = useState(false);
 
   const handleImageClick = (image: ImageData) => {
     setSelectedImage(image);
@@ -55,7 +54,6 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
           </div>
         ))}
       </div>
-
       {selectedImage && (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900">
           <div className="bg-black p-4 rounded">
@@ -66,11 +64,10 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             />
             <div>
               <h2 className="text-xl font-bold mt-2">{selectedImage.name}</h2>
-              <p className="mt-2 text-sm">DESCRIPTION WRITTEN HERE</p>
-              <button
-                className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => setIsDonatePopupOpen(true)}
-              >
+              <p className="mt-2 text-sm">
+                DESCRIPTION WRITTEN HERE
+              </p>
+              <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={openPopup}>
                 Donate Now
               </button>
               <button
@@ -80,14 +77,6 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
                 Close
               </button>
             </div>
-          </div>
-        </div>
-      )}
-
-      {isDonatePopupOpen && (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-900">
-          <div className="bg-black p-4 rounded">
-            <Donate closePopup={() => setIsDonatePopupOpen(false)} />
           </div>
         </div>
       )}
