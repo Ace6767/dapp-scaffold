@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-export const BasicsView: FC = () => {
+export const Donate: FC = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [donationAmount, setDonationAmount] = useState('');
   const [hasInput, setHasInput] = useState(false);

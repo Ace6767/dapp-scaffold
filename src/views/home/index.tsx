@@ -7,8 +7,6 @@ interface ImageData {
   link: string;
 }
 
-
-
 // Define an array of image data
 const imageData: ImageData[] = [
   {
@@ -28,7 +26,6 @@ const imageData: ImageData[] = [
   },
 ];
 
-
 export const BasicsView: FC = () => {
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
 
@@ -41,7 +38,7 @@ export const BasicsView: FC = () => {
   };
 
   return (
-    <>
+    <div style={{ height: '100vh', overflow: 'hidden' }}>
       <div className="flex flex-wrap justify-center">
         {imageData.map((image) => (
           <div className="m-4" key={image.name}>
@@ -56,27 +53,33 @@ export const BasicsView: FC = () => {
         ))}
       </div>
       {selectedImage && (
-        <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center">
-          <div className="bg-black p-4 rounded-lg flex">
-            <img src={selectedImage.src} alt={selectedImage.name} style={{ width: '600px', height: '600px' }} />
-            <div className="ml-4">
-              <h2 className="text-2xl font-bold">{selectedImage.name}</h2>
-              <p className="mt-2">
-                DESCRIPTION WRITEN HERE
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-900">
+          <div className="bg-black p-4 rounded">
+            <img
+              src={selectedImage.src}
+              alt={selectedImage.name}
+              style={{ maxWidth: '80vw', maxHeight: '70vh' }}
+            />
+            <div>
+              <h2 className="text-xl font-bold mt-2">{selectedImage.name}</h2>
+              <p className="mt-2 text-sm">
+                DESCRIPTION WRITTEN HERE
               </p>
               <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 <a href={selectedImage.link} target="_blank" rel="noopener noreferrer">
-                  Page function(edited to send money ltr?)
+                  Page function (edited to send money later?)
                 </a>
               </button>
-              <button className="mt-4 ml-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" onClick={handleModalClose}>
+              <button
+                className="mt-4 ml-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleModalClose}
+              >
                 Close
               </button>
             </div>
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
-
