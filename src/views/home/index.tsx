@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 // Define an interface for the image data
 interface ImageData {
@@ -6,6 +6,8 @@ interface ImageData {
   src: string;
   link: string;
 }
+
+
 
 // Define an array of image data
 const imageData: ImageData[] = [
@@ -26,17 +28,55 @@ const imageData: ImageData[] = [
   },
 ];
 
+
 export const BasicsView: FC = () => {
+  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
+
+  const handleImageClick = (image: ImageData) => {
+    setSelectedImage(image);
+  };
+
+  const handleModalClose = () => {
+    setSelectedImage(null);
+  };
+
   return (
-    <div className="flex flex-wrap justify-center">
-      {imageData.map((image) => (
-        <a href={image.link} key={image.name}>
-          <div className="m-4">
-            <img src={image.src} alt={image.name} style={{ width: '300px', height: '300px' }} />
-            <p className="text-center">{image.name}</p>
+    <>
+      <div className="flex flex-wrap justify-center">
+        {imageData.map((image) => (
+          <div className="m-4" key={image.name}>
+            <img
+              src={image.src}
+              alt={image.name}
+              style={{ width: '300px', height: '300px', cursor: 'pointer' }}
+              onClick={() => handleImageClick(image)}
+            />
+            <p className="text-center font-bold">{image.name}</p>
           </div>
-        </a>
-      ))}
-    </div>
+        ))}
+      </div>
+      {selectedImage && (
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-black p-4 rounded-lg flex">
+            <img src={selectedImage.src} alt={selectedImage.name} style={{ width: '600px', height: '600px' }} />
+            <div className="ml-4">
+              <h2 className="text-2xl font-bold">{selectedImage.name}</h2>
+              <p className="mt-2">
+                DESCRIPTION WRITEN HERE
+              </p>
+              <button className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                <a href={selectedImage.link} target="_blank" rel="noopener noreferrer">
+                  Page function(edited to send money ltr?)
+                </a>
+              </button>
+              <button className="mt-4 ml-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded" onClick={handleModalClose}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
+
