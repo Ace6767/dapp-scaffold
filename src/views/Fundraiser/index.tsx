@@ -63,7 +63,7 @@ export const HomeView: FC = () => {
 
   // Styles for the root container with background image
   const rootStyle: React.CSSProperties = {
-    backgroundImage: `url('https://images.unsplash.com/photo-1663497653290-1b8f327096f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80')`,
+    backgroundImage: `url('https://png.pngtree.com/thumb_back/fh260/back_our/20190619/ourmid/pngtree-love-charity-crowdfunding-public-welfare-poster-publicity-board-image_137995.jpg')`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundAttachment: 'fixed',
