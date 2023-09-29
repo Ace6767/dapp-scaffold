@@ -41,7 +41,6 @@ export const Donate: FC<DonateProps> = ({ closePopup }) => {
   };
 
   const rootStyle: React.CSSProperties = {
-    backgroundImage: `url('https://png.pngtree.com/thumb_back/fh260/back_our/20190619/ourmid/pngtree-love-charity-crowdfunding-public-welfare-poster-publicity-board-image_137995.jpg')`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundAttachment: 'fixed',
@@ -57,7 +56,6 @@ export const Donate: FC<DonateProps> = ({ closePopup }) => {
     <div className="md:hero mx-auto p-4" style={rootStyle}>
       <div className="md:hero-content flex flex-col">
         <div className="text-center">
-          {/* Donation popup content */}
           {showCostBreakdown && (
             <div className="fixed inset-0 flex items-center justify-center z-50">
               <div className="bg-white p-6 shadow-lg rounded-lg relative">
@@ -109,7 +107,6 @@ export const Donate: FC<DonateProps> = ({ closePopup }) => {
               </div>
             </div>
           )}
-          {/* End of Donation popup content */}
         </div>
       </div>
     </div>
