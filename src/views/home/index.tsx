@@ -1,6 +1,10 @@
 import React, { FC, useState } from 'react';
+<<<<<<< HEAD
 
 // Define the BasicsViewProps interface
+=======
+import { Donate } from 'views/Donate';
+>>>>>>> 66c7e838a2e166fcb1164d16914a63a4d42fa7c7
 interface BasicsViewProps {
   openPopup: () => void;
 }
@@ -35,6 +39,7 @@ const imageData: ImageData[] = [
 export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
   // State to track the selected image
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
+  const [isDonatePopupOpen, setIsDonatePopupOpen] = useState(false);
 
   // State for controlling the donation popup
   const [isDonatePopupOpen, setIsDonatePopupOpen] = useState(false);
@@ -147,9 +152,16 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             />
             <div>
               <h2 className="text-xl font-bold mt-2">{selectedImage.name}</h2>
+<<<<<<< HEAD
               <button
                 className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={handleDonateClick}
+=======
+              <p className="mt-2 text-sm">DESCRIPTION WRITTEN HERE</p>
+              <button
+                className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => setIsDonatePopupOpen(true)}
+>>>>>>> 66c7e838a2e166fcb1164d16914a63a4d42fa7c7
               >
                 Donate Now
               </button>
@@ -225,6 +237,14 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
               Close
             </button>
             <div id="result" className="mt-4"></div>
+          </div>
+        </div>
+      )}
+
+      {isDonatePopupOpen && (
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-900">
+          <div className="bg-black p-4 rounded">
+            <Donate closePopup={() => setIsDonatePopupOpen(false)} />
           </div>
         </div>
       )}
