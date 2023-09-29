@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { Donate } from 'views/Donate';
+
 interface BasicsViewProps {
   openPopup: () => void;
 }
@@ -28,9 +28,15 @@ const imageData: ImageData[] = [
   },
 ];
 
+
 export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
   const [isDonatePopupOpen, setIsDonatePopupOpen] = useState(false);
+  const [donationAmount, setDonationAmount] = useState('');
+  const [hasInput, setHasInput] = useState(false);
+  const [extraChargesAmount, setExtraChargesAmount] = useState(0);
+  const [gasFee, setGasFee] = useState(0);
+  const [showCostBreakdown, setShowCostBreakdown] = useState(false);
 
   const handleImageClick = (image: ImageData) => {
     setSelectedImage(image);
@@ -38,6 +44,40 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
 
   const handleModalClose = () => {
     setSelectedImage(null);
+    setIsDonatePopupOpen(false);
+  };
+
+  const handleDonateClick = () => {
+    setIsDonatePopupOpen(true);
+  };
+
+  const handleDonationInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const amount = e.target.value;
+    setDonationAmount(amount);
+
+    const parsedAmount = parseFloat(amount);
+    if (!isNaN(parsedAmount) && parsedAmount > 0) {
+      setHasInput(true);
+      const fixedGasFee = 0.0001;
+      const charges = (5 / 1000) * parsedAmount;
+      setGasFee(fixedGasFee);
+      setExtraChargesAmount(charges);
+    } else {
+      setHasInput(false);
+      setGasFee(0);
+      setExtraChargesAmount(0);
+    }
+  };
+
+  const handleConfirmClick = () => {
+    const parsedAmount = parseFloat(donationAmount);
+    if (!isNaN(parsedAmount) && parsedAmount > 0) {
+      // Don't close the modal here
+      const finalCost = parsedAmount + gasFee + extraChargesAmount;
+      alert(`${finalCost.toFixed(4)} sol has been transferred successfully.`);
+    } else {
+      alert('Please enter a valid donation amount.');
+    }
   };
 
   return (
@@ -57,8 +97,8 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       </div>
 
       {selectedImage && (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-900">
-          <div className="bg-black p-4 rounded">
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-4 rounded-lg relative">
             <img
               src={selectedImage.src}
               alt={selectedImage.name}
@@ -66,28 +106,73 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             />
             <div>
               <h2 className="text-xl font-bold mt-2">{selectedImage.name}</h2>
-              <p className="mt-2 text-sm">DESCRIPTION WRITTEN HERE</p>
               <button
                 className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => setIsDonatePopupOpen(true)}
+                onClick={handleDonateClick}
               >
                 Donate Now
               </button>
-              <button
-                className="mt-4 ml-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleModalClose}
-              >
-                Close
-              </button>
             </div>
+            <button
+              onClick={handleModalClose}
+              className="absolute bottom-0 right-0 mb-5 mr-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded cursor-pointer"
+            >
+              Close
+            </button>
           </div>
         </div>
       )}
 
       {isDonatePopupOpen && (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-900">
-          <div className="bg-black p-4 rounded">
-            <Donate closePopup={() => setIsDonatePopupOpen(false)} />
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
+          <div className="bg-white p-4 rounded-lg relative">
+            <h2 className="text-2xl font-semibold mb-4 text-indigo-600">Donation Information</h2>
+            <div className="mb-4">
+              <label className="block text-gray-600">Donation Amount:</label>
+              <input
+                type="text"
+                id="donation-input"
+                value={donationAmount}
+                onChange={handleDonationInputChange}
+                className="w-full border border-black rounded-lg px-4 py-2"
+                style={{ color: 'black' }}
+              />
+            </div>
+            {hasInput && (
+              <div className="mb-4 text-gray-600">
+                Total Price: {(parseFloat(donationAmount) + gasFee + extraChargesAmount).toFixed(4)} sol{' '}
+                <span
+                  className="text-xs text-indigo-600 cursor-pointer"
+                  onClick={() => setShowCostBreakdown(!showCostBreakdown)}
+                >
+                  <p>(Click to display breakdown cost)</p>
+                </span>
+                {showCostBreakdown && (
+                  <div className="mt-2">
+                    <div>Gas Fee: {gasFee.toFixed(4)} sol</div>
+                    <div>Extra Charges: {extraChargesAmount.toFixed(4)} sol</div>
+                  </div>
+                )}
+              </div>
+            )}
+            <div className="text-middle">
+              {hasInput && (
+                <button
+                  onClick={handleConfirmClick}
+                  id="confirm-btn"
+                  className="bg-indigo-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-600 cursor-pointer shadow-md"
+                >
+                  Confirm Donation
+                </button>
+              )}
+            </div>
+            <button
+              onClick={handleModalClose}
+              className="absolute bottom-0 right-0 mb-8 mr-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded cursor-pointer"
+            >
+              Close
+            </button>
+            <div id="result" className="mt-4"></div>
           </div>
         </div>
       )}
