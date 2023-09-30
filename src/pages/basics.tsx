@@ -12,7 +12,6 @@ const Basics: NextPage = (props) => {
           content="Basic Functionality"
         />
       </Head>
-      <BasicsView />
     </div>
   );
 };
