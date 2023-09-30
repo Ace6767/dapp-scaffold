@@ -84,61 +84,68 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
   };
 
   return (
-    <div style={{ height: '100vh', overflow: 'hidden' }}>
-      <div className="flex flex-wrap justify-center">
-        {imageData.map((image) => (
-          <div className="m-4" key={image.name}>
-            <img
-              src={image.src}
-              alt={image.name}
-              style={{ width: '300px', height: '300px', cursor: 'pointer' }}
+    <div className="min-h-screen">
+      <div className="p-4">
+        <h1 className="text-3xl font-semibold text-center my-4 text-white">Donation Images</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {imageData.map((image) => (
+            <div
+              key={image.name}
+              className="bg-white p-4 rounded-lg cursor-pointer transition-transform transform hover:scale-105"
               onClick={() => handleImageClick(image)}
-            />
-            <p className="text-center font-bold" style={{ color: 'white' }}>{image.name}</p>
-          </div>
-        ))}
+            >
+              <img
+                src={image.src}
+                alt={image.name}
+                className="w-full h-40 object-cover rounded-md mb-2"
+              />
+              <p className="text-lg font-semibold text-gray-800 text-black">{image.name}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       {selectedImage && (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-4 rounded-lg relative" style={{ maxWidth: '80%', maxHeight: '80%', overflowY: 'auto' }}>
+          <div className="bg-white p-4 rounded-lg relative max-w-xl w-full">
             <img
               src={selectedImage.src}
               alt={selectedImage.name}
-              style={{ width: '100%', height: 'auto', marginBottom: '16px' }}
+              className="w-full h-60 object-cover rounded-md mb-4"
             />
-            <h2 className="text-xl font-bold mt-2" style={{ color: 'black' }}>{selectedImage.name}</h2>
-            {/* Display image description */}
+            <h2 className="text-xl font-bold mb-2 text-black">{selectedImage.name}</h2>
             <p className="text-gray-600">{selectedImage.description}</p>
-            <button
-              className="absolute left-0 mt-10 ml-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={handleDonateClick}
-            >
-              Donate Now
-            </button>
-            <button
-              onClick={handleModalClose}
-              className="absolute right-0 mt-10 mr-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
-            >
-              Close
-            </button>
+            <div className="mt-4 flex justify-between">
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={handleDonateClick}
+              >
+                Donate Now
+              </button>
+              <button
+                onClick={handleModalClose}
+                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
 
       {isDonatePopupOpen && (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-10 rounded-lg relative" style={{ maxWidth: '90%', maxHeight: '90%', overflowY: 'auto' }}>
-            <h2 className="text-2xl font-semibold mb-4 text-indigo-600" style={{ fontSize: '28px' }}>Donation Information</h2>
+          <div className="bg-white p-10 rounded-lg relative max-w-xl w-full">
+            <h2 className="text-3xl font-semibold mb-4 text-indigo-600">Donation Information</h2>
             <div className="mb-4">
-              <label className="block text-gray-600" style={{ fontSize: '18px' }}>Donation Amount:</label>
+              <label className="block text-gray-600 text-lg">Donation Amount:</label>
               <input
                 type="text"
                 id="donation-input"
                 value={donationAmount}
                 onChange={handleDonationInputChange}
-                className="w-full border border-black rounded-lg px-4 py-2"
-                style={{ color: '#333', fontSize: '18px' }}
+                className="w-full border border-black rounded-lg px-4 py-2 text-lg"
+                style={{ color: '#333' }}
               />
             </div>
             {hasInput && (
@@ -163,7 +170,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
                 <button
                   onClick={handleConfirmClick}
                   id="confirm-btn"
-                  className="absolute bottom-4 left-4 ml-5 bg-indigo-600 text-white font-bold py-1 px-2 rounded cursor-pointer"
+                  className="absolute bottom-4 left-10 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
                 >
                   Confirm Donation
                 </button>
@@ -171,11 +178,10 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             </div>
             <button
               onClick={handleModalClose}
-              className="absolute bottom-4 right-4 bg-indigo-600 text-white font-bold py-1 px-2 rounded cursor-pointer"
+              className="absolute bottom-4 right-10 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
             >
               Close
             </button>
-            <div id="result" className="mt-4"></div>
           </div>
         </div>
       )}
