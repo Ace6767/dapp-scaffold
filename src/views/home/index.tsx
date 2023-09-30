@@ -15,7 +15,7 @@ interface ImageData {
   description: string;
   targetAmount: number;
   currentAmount: number | null;
-  receiverAddress: string; // Add a receiverAddress field
+  receiverAddress: string;
 }
 
 export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
@@ -37,7 +37,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       description: 'Bob Ross has suffered great injuries and needs a donation for his medical fee.',
       targetAmount: 10,
       currentAmount: null,
-      receiverAddress: '9MDjubwJdpYNfJWE77NSpSuYbWA3eUnGWAy4K5wzLj5r', // Receiver address for the first image
+      receiverAddress: '9MDjubwJdpYNfJWE77NSpSuYbWA3eUnGWAy4K5wzLj5r',
     },
     {
       name: 'Burnt House',
@@ -46,7 +46,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       description: 'The fire has left the family shelterless, and money is needed for rebuilding.',
       targetAmount: 8,
       currentAmount: null,
-      receiverAddress: 'Ek3oLg6Mc5qH8K4ZLrDUZL7PMKtjeJnf54GdC9yrYGrx', // Receiver address for the second image
+      receiverAddress: 'Ek3oLg6Mc5qH8K4ZLrDUZL7PMKtjeJnf54GdC9yrYGrx',
     },
     {
       name: 'College Funding',
@@ -55,14 +55,13 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       description: 'A teenage boy who wants to pursue his studies but lacks financial support.',
       targetAmount: 12,
       currentAmount: null,
-      receiverAddress: 'B3Zu9LJdEcvMwpk9AEVsBxuuWPPGp8iMH2nsWsDx43BU', // Receiver address for the third image
+      receiverAddress: 'B3Zu9LJdEcvMwpk9AEVsBxuuWPPGp8iMH2nsWsDx43BU',
     },
   ]);
 
   useEffect(() => {
     async function fetchCurrentAmounts() {
       try {
-        // Fetch current amounts for each image
         const amount1 = await viewAmountCollected(imageData[0].receiverAddress);
         const amount2 = await viewAmountCollected(imageData[1].receiverAddress);
         const amount3 = await viewAmountCollected(imageData[2].receiverAddress);
@@ -129,13 +128,13 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
     const parsedAmount = parseFloat(donationAmount);
     if (!isNaN(parsedAmount) && parsedAmount > 0) {
       try {
-        const recipientPublicKey = new PublicKey(selectedImage?.receiverAddress || ''); // Use selected image's receiverAddress
-        const lamports = Math.floor(parsedAmount * 1000000000); // Convert SOL to lamports
+        const recipientPublicKey = new PublicKey(selectedImage?.receiverAddress || '');
+        const lamports = Math.floor(parsedAmount * 1000000000);
         const instructions = [
           SystemProgram.transfer({
             fromPubkey: publicKey,
             toPubkey: recipientPublicKey,
-            lamports: lamports, // Use lamports
+            lamports: lamports,
           }),
         ];
 
@@ -186,15 +185,13 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
               <img
                 src={image.src}
                 alt={image.name}
-                className="w-full h-40 object-cover rounded-md mb-2"
+                className="w-full h-auto object-cover rounded-md mb-2 max-h-60"
               />
               <p className="text-lg font-semibold text-gray-800 text-black">{image.name}</p>
-              <div className="flex justify-between mt-2">
-                <p className="text-gray-600">Target: {image.targetAmount} SOL</p>
-                <p className="text-gray-600">
-                  <span>Raised:</span> {image.currentAmount !== null ? `${image.currentAmount} SOL` : 'Loading...'}
-                </p>
-              </div>
+              <p className="text-gray-600">Target: {image.targetAmount} SOL</p>
+              <p className="text-gray-600">
+                Raised: {image.currentAmount !== null ? `${image.currentAmount} SOL` : 'Loading...'}
+              </p>
               {image.currentAmount !== null && (
                 <div className="relative mt-2 h-4 bg-gray-200 rounded-full">
                   <div
@@ -281,7 +278,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
                 </button>
               )}
               <button
-                onClick={handleModalClose} // This is the new Close button
+                onClick={handleModalClose}
                 className="absolute bottom-4 right-10 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
               >
                 Close
