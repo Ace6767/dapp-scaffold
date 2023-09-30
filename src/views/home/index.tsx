@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
-import { viewAmountCollected } from 'components/ViewDonors';
+import { viewAmountCollected, viewDonors, TransactionDetails } from 'components/ViewDonors';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
 import { notify } from 'utils/notifications';
@@ -59,6 +59,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
     },
   ]);
 
+
   useEffect(() => {
     async function fetchCurrentAmounts() {
       try {
@@ -88,9 +89,19 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
     fetchCurrentAmounts();
   }, []);
 
-  const handleImageClick = (image: ImageData) => {
+  const handleImageClick = async (image: ImageData) => {
     setSelectedImage(image);
+  
+    try {
+      const transactions = await viewDonors(image.receiverAddress);
+      setTransactionHistory(transactions);
+    } catch (error) {
+      console.error('Error fetching transaction history:', error);
+    }
   };
+
+  const [transactionHistory, setTransactionHistory] = useState<TransactionDetails[] | null>(null);
+ 
 
   const handleModalClose = () => {
     setSelectedImage(null);
@@ -217,6 +228,25 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             />
             <h2 className="text-2xl font-bold mb-2 text-gray-800">{selectedImage.name}</h2>
             <p className="text-gray-600">{selectedImage.description}</p>
+
+            {/* Transaction History */}
+            {transactionHistory && (
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold mb-2 text-black">Transaction History</h3>
+                <ul>
+                  {transactionHistory.slice(0, 3).map((transaction, index) => (
+                    <li key={index} className="text-black border-t border-b py-2">
+                      <div>
+                        <strong>Wallet Address:</strong> {transaction.walletAddress}<br />
+                        <strong>Amount:</strong> {transaction.amount} SOL<br />
+                        <strong>Time:</strong> {transaction.time.toString()}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             <div className="mt-4 flex justify-between">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -234,6 +264,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
           </div>
         </div>
       )}
+
 
       {isDonatePopupOpen && (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
