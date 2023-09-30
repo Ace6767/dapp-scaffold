@@ -27,7 +27,6 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
   const [extraChargesAmount, setExtraChargesAmount] = useState(0);
   const [gasFee, setGasFee] = useState(0);
   const [showCostBreakdown, setShowCostBreakdown] = useState(false);
-  const [isConfirmDonationVisible, setIsConfirmDonationVisible] = useState(false); // New state for ConfirmDonation visibility
 
   // Define your image data
   const [imageData, setImageData] = useState<ImageData[]>([
@@ -121,14 +120,14 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       setExtraChargesAmount(0);
     }
   };
-  let selectedAddress = '';
+
   // Handle confirm donation button click event
   const handleConfirmClick = () => {
     const donate = parseInt(donationAmount);
     const parsedAmount = parseFloat(donationAmount);
     if (!isNaN(parsedAmount) && parsedAmount > 0) {
-      
-
+      let selectedAddress = '';
+  
       // Determine the selected address based on the selected image
       if (selectedImage) {
         switch (selectedImage.name) {
@@ -146,13 +145,17 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             break;
         }
       }
-
-      // Set the state to make ConfirmDonation component visible
-      setIsConfirmDonationVisible(true);
+  
+      // Call the onClick function in ConfirmDonation
+      // Pass the donation amount and selected address as props
+      return (
+        <ConfirmDonation amount={parsedAmount} ReceiverAddress={selectedAddress} onClick={onclick} />
+      );
     } else {
       alert('Please enter a valid donation amount.');
     }
   };
+  
 
   return (
     <div
@@ -287,11 +290,6 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             </button>
           </div>
         </div>
-      )}
-
-      {/* Conditionally render the ConfirmDonation component */}
-      {isConfirmDonationVisible && (
-        <ConfirmDonation amount={parseFloat(donationAmount)} ReceiverAddress={selectedAddress} />
       )}
     </div>
   );
