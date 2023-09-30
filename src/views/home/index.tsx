@@ -149,7 +149,8 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             <img
               src={selectedImage.src}
               alt={selectedImage.name}
-              className="w-full h-100 object-cover rounded-md mb-4"
+              className="w-full h-auto object-cover rounded-md mb-4 max-height-800" // Updated image styling
+              style={{ maxHeight: '60vh' }} // Limit the height to 60% of the viewport height
             />
             <h2 className="text-2xl font-bold mb-2 text-gray-800">{selectedImage.name}</h2>
             <p className="text-gray-600">{selectedImage.description}</p>
