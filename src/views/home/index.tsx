@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from 'react';
 import { viewAmountCollected } from 'components/ViewDonors';
-import { ConfirmDonation } from 'components/ConfirmDonation'; // Import ConfirmDonation component
+import { ConfirmDonation } from 'components/ConfirmDonation';
 
 // Define your component's props
 interface BasicsViewProps {
@@ -28,7 +28,6 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
   const [gasFee, setGasFee] = useState(0);
   const [showCostBreakdown, setShowCostBreakdown] = useState(false);
 
-  // Define your image data
   const [imageData, setImageData] = useState<ImageData[]>([
     {
       name: 'Bob Ross',
@@ -55,6 +54,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       currentAmount: null,
     },
   ]);
+  
 
   // Fetch current donation amounts on component mount
   useEffect(() => {
@@ -127,7 +127,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
     const parsedAmount = parseFloat(donationAmount);
     if (!isNaN(parsedAmount) && parsedAmount > 0) {
       let selectedAddress = '';
-  
+
       // Determine the selected address based on the selected image
       if (selectedImage) {
         switch (selectedImage.name) {
@@ -145,17 +145,16 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             break;
         }
       }
-  
+
       // Call the onClick function in ConfirmDonation
       // Pass the donation amount and selected address as props
       return (
-        <ConfirmDonation amount={parsedAmount} ReceiverAddress={selectedAddress} onClick={onclick} />
+        <ConfirmDonation amount={parsedAmount} ReceiverAddress={selectedAddress} onClick={handleConfirmClick} />
       );
     } else {
       alert('Please enter a valid donation amount.');
     }
   };
-  
 
   return (
     <div
