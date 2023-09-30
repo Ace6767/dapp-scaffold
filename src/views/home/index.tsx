@@ -44,7 +44,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       src: 'https://media.discordapp.net/attachments/804328230378012703/1157052005404131408/image.png?ex=65173427&is=6515e2a7&hm=1463a29d1009619e2e11fb4b6057f3ae9dc1699962967802e17778e38ffa085e&=&width=584&height=545',
       link: 'https://example.com/page3',
       description: 'A teenage boy who wants to pursue his studies but lacks financial support.',
-      targetAmount: 5,
+      targetAmount: 12,
       currentAmount: null,
     },
   ]);
