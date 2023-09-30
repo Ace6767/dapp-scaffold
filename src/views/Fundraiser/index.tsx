@@ -4,6 +4,9 @@ export const HomeView: FC = () => {
   // State for controlling the donation form visibility
   const [isDonationFormVisible, setDonationFormVisible] = useState(false);
 
+  // State for controlling the submission confirmation popup visibility
+  const [isSubmissionPopupVisible, setSubmissionPopupVisible] = useState(false);
+
   // State for storing donation information
   const [donationInfo, setDonationInfo] = useState({
     name: '',
@@ -38,12 +41,20 @@ export const HomeView: FC = () => {
     });
   };
 
-// Function to handle donation submission
-const handleDonationSubmit = () => {
-    // Reset the webpage
-    window.location.reload();
-  
-};
+  // Function to handle donation submission
+  const handleDonationSubmit = () => {
+    // Display the submission confirmation popup
+    setSubmissionPopupVisible(true);
+
+    // After a delay, hide the submission confirmation popup and reload the webpage
+    setTimeout(() => {
+      // Hide the submission confirmation popup
+      setSubmissionPopupVisible(false);
+
+      // Reset the webpage
+      window.location.reload();
+    }, 500); // Adjust the delay time (in milliseconds) as needed
+  };
 
   // Styles for input elements
   const inputStyle = {
@@ -57,44 +68,36 @@ const handleDonationSubmit = () => {
     fontWeight: 'bold',
   };
 
+  // Styles for the root container with background image
+  const rootStyle: React.CSSProperties = {
+    backgroundImage: `url('https://images.unsplash.com/photo-1663497653290-1b8f327096f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80')`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundAttachment: 'fixed',
+    width: '100vw',
+    minHeight: '100vh',
+    overflowX: 'hidden',
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column', // Center items vertically
+  };
 
- // Styles for the root container with background image
- const rootStyle: React.CSSProperties = {
-  backgroundImage: `url('https://images.unsplash.com/photo-1663497653290-1b8f327096f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80')`,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundAttachment: 'fixed',
-  width: '100vw',
-  minHeight: '100vh',
-  overflowX: 'hidden',
-  position: 'relative',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'column', // Center items vertically
-};
-
-  // Styles for the footer
-  const footerStyle: React.CSSProperties = {
-    backgroundColor: 'rgba(0, 0, 0, 0.9)',
-    padding: '20px',
+  // Styles for the submission confirmation popup
+  const submissionPopupStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: '0',
+    left: '0',
     width: '100%',
-    textAlign: 'center',
-    fontSize: '18px',
-    fontWeight: 'bold',
-  };
-
-  // Styles for the title container
-  const titleContainerStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: '1px', // Adjust the top position as needed
-    left: '20px', // Adjust the left position as needed
-  };
-
-  // Styles for the title
-  const titleStyle: React.CSSProperties = {
-    color: 'black', // Text color
-    fontSize: '30px', // Adjust the font size as needed
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
+    color: 'white',
+    fontSize: '24px',
     fontWeight: 'bold',
   };
 
@@ -102,9 +105,6 @@ const handleDonationSubmit = () => {
     <div className="md:hero mx-auto p-4" style={rootStyle}>
       <div className="md:hero-content">
         <div>
-          <div style={titleContainerStyle}>
-            <h1 style={titleStyle}>CoinForCause</h1> {/* Title */}
-          </div>
           <h2 className="text-3xl font-semibold mb-6" style={{ color: 'black', fontWeight: 'bold' }}>Donation Information</h2>
           <div className="mb-6">
             <label className="block text-gray-600" style={{ color: 'black', fontWeight: 'bold' }}>Name:</label>
@@ -185,6 +185,13 @@ const handleDonationSubmit = () => {
           </div>
         </div>
       </div>
+
+      {/* Submission confirmation popup */}
+      {isSubmissionPopupVisible && (
+        <div style={submissionPopupStyle}>
+          <p>Your submission is recorded.</p>
+        </div>
+      )}
     </div>
   );
 };
