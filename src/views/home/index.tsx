@@ -9,6 +9,8 @@ interface ImageData {
   src: string;
   link: string;
   description: string;
+  targetAmount: number;
+  currentAmount: number;
 }
 
 const imageData: ImageData[] = [
@@ -17,18 +19,24 @@ const imageData: ImageData[] = [
     src: 'https://images.prismic.io/hireup/afa55aee-b1db-486b-ad30-71557e58fe28_Steve+Ralph_broken+arm.JPG?auto=compress,format&rect=0,944,3024,2532&w=3024&h=2532',
     link: 'https://example.com/page1',
     description: 'Bob Ross has suffered great injuries and needs a donation for his medical fee.',
+    targetAmount: 15,
+    currentAmount: 7.7,
   },
   {
     name: 'Burnt House',
     src: 'https://media.istockphoto.com/id/171255212/photo/burnt-house.jpg?s=612x612&w=0&k=20&c=Of5iL_GKFPi2bSeZFF4LLB5LCGzbaIOOqrppsrPABsY=',
     link: 'https://example.com/page2',
     description: 'The fire has left the family shelterless, and money is needed for rebuilding.',
+    targetAmount: 8,
+    currentAmount: 3.2,
   },
   {
     name: 'College Funding',
     src: 'https://media.discordapp.net/attachments/804328230378012703/1157052005404131408/image.png?ex=65173427&is=6515e2a7&hm=1463a29d1009619e2e11fb4b6057f3ae9dc1699962967802e17778e38ffa085e&=&width=584&height=545',
     link: 'https://example.com/page3',
     description: 'A teenage boy who wants to pursue his studies but lacks financial support.',
+    targetAmount: 12,
+    currentAmount: 8,
   },
 ];
 
@@ -84,8 +92,26 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
   };
 
   return (
-    <div className="min-h-screen">
-      <div className="p-4 text-center">
+    <div
+      className="min-h-screen flex flex-col"
+      style={{
+        background: `url('https://cdn.wallpapersafari.com/36/1/Qq7bWJ.jpeg')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        width: '100vw',
+        minHeight: '100vh',
+        overflowX: 'hidden',
+        position: 'relative',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        fontFamily: 'Arial, sans-serif',
+      }}
+    >
+      <div className="p-4 text-center flex-grow">
         <h1 className="text-4xl font-semibold text-white-800 mb-4">Donation Images</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {imageData.map((image) => (
@@ -100,6 +126,18 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
                 className="w-full h-40 object-cover rounded-md mb-2"
               />
               <p className="text-lg font-semibold text-gray-800 text-black">{image.name}</p>
+              <div className="flex justify-between mt-2">
+                <p className="text-gray-600">Target: {image.targetAmount} SOL</p>
+                <p className="text-gray-600">Raised: {image.currentAmount} SOL</p>
+              </div>
+              <div className="relative mt-2 h-4 bg-gray-200 rounded-full">
+                <div
+                  className="absolute h-4 bg-indigo-600 rounded-full"
+                  style={{
+                    width: `${(image.currentAmount / image.targetAmount) * 100}%`,
+                  }}
+                ></div>
+              </div>
             </div>
           ))}
         </div>
