@@ -5,6 +5,7 @@ import { BasicsView } from "../views";
 const Basics: NextPage = (props) => {
   return (
     <div>
+      
       <Head>
         <title>Solana Scaffold</title>
         <meta
@@ -12,6 +13,7 @@ const Basics: NextPage = (props) => {
           content="Basic Functionality"
         />
       </Head>
+      <BasicsView />
     </div>
   );
 };

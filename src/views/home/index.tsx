@@ -94,7 +94,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
               style={{ width: '300px', height: '300px', cursor: 'pointer' }}
               onClick={() => handleImageClick(image)}
             />
-            <p className="text-center font-bold">{image.name}</p>
+            <p className="text-center font-bold" style={{ color: 'white' }}>{image.name}</p>
           </div>
         ))}
       </div>
@@ -108,7 +108,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
               style={{ maxWidth: '80vw', maxHeight: '70vh' }}
             />
             <div>
-              <h2 className="text-xl font-bold mt-2">{selectedImage.name}</h2>
+              <h2 className="text-xl font-bold mt-2" style={{ color: 'black' }}>{selectedImage.name}</h2>
               {/* Display image description */}
               <p className="text-gray-600">{selectedImage.description}</p>
               <button
