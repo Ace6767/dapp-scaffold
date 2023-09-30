@@ -71,7 +71,7 @@ export const ConfirmDonation: FC<SendTransactionProps> = ({ amount, ReceiverAddr
                         Wallet not connected
                         </div>
                          <span className="block group-disabled:hidden" >
-                            Confirm
+                            Donate now
                         </span>
                     </button>
              </div>
