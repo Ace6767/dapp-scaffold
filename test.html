@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Receiver Address</title>
+</head>
+<body>
+    <h1>Set Receiver Address</h1>
+    <label for="receiverAddress">Receiver Address:</label>
+    <input type="text" id="receiverAddress" placeholder="Enter Ethereum address">
+    <button onclick="setReceiverAddress()">Set Receiver Address</button>
+    
+    <script>
+        async function setReceiverAddress() {
+            const receiverAddress = document.getElementById('receiverAddress').value;
+            
+            // Check if the entered address is a valid Ethereum address
+            if (!web3.utils.isAddress(receiverAddress)) {
+                alert('Invalid Ethereum address');
+                return;
+            }
+            
+            try {
+                // Call the setReceiverAdd function of your contract
+                await contractInstance.methods.setReceiverAdd(receiverAddress).send({ from: yourWalletAddress });
+                
+                alert('Receiver address updated successfully');
+            } catch (error) {
+                alert('Error updating receiver address: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
