@@ -43,17 +43,6 @@ export const HomeView: FC = () => {
     }, 500);
   };
 
-  const inputStyle = {
-    color: 'black',
-    width: '100%',
-    border: '2px solid #000',
-    borderRadius: '4px',
-    padding: '12px',
-    marginBottom: '20px',
-    fontSize: '18px',
-    fontWeight: 'bold',
-  };
-
   const rootStyle: React.CSSProperties = {
     backgroundImage: `url('https://images.unsplash.com/photo-1663497653290-1b8f327096f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80')`,
     backgroundSize: 'cover',
@@ -68,14 +57,44 @@ export const HomeView: FC = () => {
     alignItems: 'center',
     flexDirection: 'column',
     backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    fontFamily: 'Arial, sans-serif',
   };
 
   const formContainerStyle: React.CSSProperties = {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    padding: '20px',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    padding: '30px',
     borderRadius: '10px',
     textAlign: 'center',
-    boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.3)',
+    boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.4)',
+    animation: 'fadeInUp 0.8s ease',
+  };
+
+  const inputStyle: React.CSSProperties = {
+    color: 'black',
+    width: '100%',
+    border: '2px solid #000',
+    borderRadius: '4px',
+    padding: '14px',
+    marginBottom: '20px',
+    fontSize: '18px',
+    fontWeight: 'bold',
+  };
+
+  const textareaStyle: React.CSSProperties = {
+    ...inputStyle,
+    height: '120px',
+    resize: 'none',
+  };
+
+  const buttonStyle: React.CSSProperties = {
+    backgroundColor: '#007BFF',
+    color: 'white',
+    padding: '12px 24px',
+    fontSize: '20px',
+    fontWeight: 'bold',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease-in-out',
   };
 
   const submissionPopupStyle: React.CSSProperties = {
@@ -98,7 +117,7 @@ export const HomeView: FC = () => {
     <div className="md:hero mx-auto p-4" style={rootStyle}>
       <div className="md:hero-content" style={formContainerStyle}>
         <div>
-          <h2 className="text-3xl font-semibold mb-6" style={{ color: 'black', fontWeight: 'bold' }}>
+          <h2 className="text-4xl font-semibold mb-6" style={{ color: 'black', fontWeight: 'bold' }}>
             Donation Information
           </h2>
           <div className="mb-6">
@@ -137,7 +156,7 @@ export const HomeView: FC = () => {
               value={donationInfo.description}
               onChange={handleInputChange}
               placeholder="Description of the fundraiser"
-              style={{ ...inputStyle, height: '100px' }}
+              style={textareaStyle}
             />
           </div>
           <div className="mb-6">
@@ -171,7 +190,7 @@ export const HomeView: FC = () => {
           <div className="text-center">
             <button
               onClick={handleDonationSubmit}
-              className="bg-black text-white font-semibold py-3 px-6 rounded hover-bg-gray-800 cursor-pointer"
+              style={buttonStyle}
             >
               Submit Donation
             </button>
