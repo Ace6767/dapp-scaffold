@@ -85,8 +85,8 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
 
   return (
     <div className="min-h-screen">
-      <div className="p-4">
-        <h1 className="text-3xl font-semibold text-center my-4 text-white">Donation Images</h1>
+      <div className="p-4 text-center">
+        <h1 className="text-4xl font-semibold text-white-800 mb-4">Donation Images</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {imageData.map((image) => (
             <div
@@ -113,7 +113,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
               alt={selectedImage.name}
               className="w-full h-60 object-cover rounded-md mb-4"
             />
-            <h2 className="text-xl font-bold mb-2 text-black">{selectedImage.name}</h2>
+            <h2 className="text-2xl font-bold mb-2 text-gray-800">{selectedImage.name}</h2>
             <p className="text-gray-600">{selectedImage.description}</p>
             <div className="mt-4 flex justify-between">
               <button
@@ -155,7 +155,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
                   className="text-xs text-indigo-600 cursor-pointer"
                   onClick={() => setShowCostBreakdown(!showCostBreakdown)}
                 >
-                  <p>(Click to display breakdown cost)</p>
+                  (Click to display breakdown cost)
                 </span>
                 {showCostBreakdown && (
                   <div className="mt-2">
