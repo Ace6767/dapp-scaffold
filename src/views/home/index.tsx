@@ -1,13 +1,8 @@
 import React, { FC, useState, useEffect } from 'react';
-<<<<<<< HEAD
 import { viewAmountCollected } from 'components/ViewDonors';
 import { useConnection, useWallet } from '@solana/wallet-adapter-react';
 import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
 import { notify } from 'utils/notifications';
-=======
-import { viewAmountCollected, viewDonors, TransactionDetails } from 'components/ViewDonors';
-import { ConfirmDonation } from 'components/ConfirmDonation';
->>>>>>> 105b15959c1abeb53c6d18dd1486a458d5f839de
 
 interface BasicsViewProps {
   openPopup: () => void;
@@ -34,12 +29,6 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
   const [extraChargesAmount, setExtraChargesAmount] = useState<number>(0);
   const [gasFee, setGasFee] = useState<number>(0);
   const [showCostBreakdown, setShowCostBreakdown] = useState(false);
-<<<<<<< HEAD
-=======
-  const [selectedImageDonors, setSelectedImageDonors] = useState<TransactionDetails[] | null>(null);
-
-
->>>>>>> 105b15959c1abeb53c6d18dd1486a458d5f839de
   const [imageData, setImageData] = useState<ImageData[]>([
     {
       name: 'Bob Ross',
@@ -100,39 +89,9 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
     fetchCurrentAmounts();
   }, []);
 
-<<<<<<< HEAD
   const handleImageClick = (image: ImageData) => {
-=======
-  // Handle image click event
-  const handleImageClick = async (image: ImageData) => {
->>>>>>> 105b15959c1abeb53c6d18dd1486a458d5f839de
     setSelectedImage(image);
-    try {
-      let selectedAddress = '';
-  
-      // Determine the selected address based on the selected image
-      switch (image.name) {
-        case 'Bob Ross':
-          selectedAddress = '9MDjubwJdpYNfJWE77NSpSuYbWA3eUnGWAy4K5wzLj5r';
-          break;
-        case 'Burnt House':
-          selectedAddress = 'Ek3oLg6Mc5qH8K4ZLrDUZL7PMKtjeJnf54GdC9yrYGrx';
-          break;
-        case 'College Funding':
-          selectedAddress = 'B3Zu9LJdEcvMwpk9AEVsBxuuWPPGp8iMH2nsWsDx43BU';
-          break;
-        default:
-          // Handle other cases or provide a default address
-          break;
-      }
-  
-      const donors = await viewDonors(selectedAddress);
-      setSelectedImageDonors(donors);
-    } catch (error) {
-      console.error('Error fetching donors:', error);
-    }
   };
-  
 
   const handleModalClose = () => {
     setSelectedImage(null);
@@ -261,44 +220,6 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             />
             <h2 className="text-2xl font-bold mb-2 text-gray-800">{selectedImage.name}</h2>
             <p className="text-gray-600">{selectedImage.description}</p>
-
-            {/* Display "Target" and "Raised" above "Donors" */}
-            <div className="mt-4">
-              <div className="flex justify-between">
-                <div>
-                  <p className="text-lg font-semibold text-gray-800">Target: {selectedImage.targetAmount} SOL</p>
-                  <p className="text-lg font-semibold text-gray-800">Raised: {selectedImage.currentAmount ?? 'Loading...'} SOL</p>
-                </div>
-                <div>
-                  {/* Progress Bar */}
-                  {selectedImage.currentAmount !== null && (
-                    <div className="relative h-4 bg-gray-200 rounded-full">
-                      <div
-                        className="absolute h-4 bg-indigo-600 rounded-full"
-                        style={{
-                          width: `${(selectedImage.currentAmount / selectedImage.targetAmount) * 100}%`,
-                        }}
-                      ></div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Display transaction details */}
-            <div className="mt-4">
-              <h3 className="text-xl font-semibold mb-2 text-gray-800">Donors:</h3>
-              {selectedImageDonors ? (
-                selectedImageDonors.map((donor, index) => (
-                  <div key={index} className="text-gray-600">
-                    {donor.walletAddress}: {donor.amount} SOL (Time: {donor.time.toLocaleString()})
-                  </div>
-                ))
-              ) : (
-                <p>Loading donors...</p>
-              )}
-            </div>
-
             <div className="mt-4 flex justify-between">
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -316,7 +237,6 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
           </div>
         </div>
       )}
-
 
       {isDonatePopupOpen && (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
