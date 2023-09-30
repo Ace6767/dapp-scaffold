@@ -280,6 +280,12 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
                   Confirm Donation
                 </button>
               )}
+              <button
+                onClick={handleModalClose} // This is the new Close button
+                className="absolute bottom-4 right-10 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
