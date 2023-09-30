@@ -1,91 +1,63 @@
 import React, { FC, useState } from 'react';
-<<<<<<< HEAD
 
-// Define the BasicsViewProps interface
-=======
-import { Donate } from 'views/Donate';
->>>>>>> 66c7e838a2e166fcb1164d16914a63a4d42fa7c7
 interface BasicsViewProps {
   openPopup: () => void;
 }
 
-// Define the ImageData interface
 interface ImageData {
   name: string;
   src: string;
   link: string;
-  description: string; // Add description property
+  description: string; // Added description field
 }
 
-// Define an array of image data
 const imageData: ImageData[] = [
   {
-    name: 'Bob Ross Hospital Fund',
+    name: 'Bob Ross',
     src: 'https://images.prismic.io/hireup/afa55aee-b1db-486b-ad30-71557e58fe28_Steve+Ralph_broken+arm.JPG?auto=compress,format&rect=0,944,3024,2532&w=3024&h=2532',
     link: 'https://example.com/page1',
-    description: 'Help support the Bob Ross Hospital Fund in providing medical care to those in need.',
+    description: 'An image of Bob Ross with a broken arm.',
   },
   {
-    name: 'Lim\'s Family Fire Fund',
+    name: 'Burnt House',
     src: 'https://media.istockphoto.com/id/171255212/photo/burnt-house.jpg?s=612x612&w=0&k=20&c=Of5iL_GKFPi2bSeZFF4LLB5LCGzbaIOOqrppsrPABsY=',
     link: 'https://example.com/page2',
-    description: 'Contribute to the Lim Family Fire Fund to assist in rebuilding their home after a devastating fire.',
+    description: 'A photograph of a burnt house.',
   },
   {
-    name: 'Fund Alex\'s College Course ',
+    name: 'College Funding',
     src: 'https://media.discordapp.net/attachments/804328230378012703/1157052005404131408/image.png?ex=65173427&is=6515e2a7&hm=1463a29d1009619e2e11fb4b6057f3ae9dc1699962967802e17778e38ffa085e&=&width=584&height=545',
     link: 'https://example.com/page3',
-    description: 'Support Alex in pursuing higher education by contributing to their college fund.',
+    description: 'An illustration related to college funding.',
   },
 ];
 
-// Define the BasicsView component
 export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
-  // State to track the selected image
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
   const [isDonatePopupOpen, setIsDonatePopupOpen] = useState(false);
-
-  // State for controlling the donation popup
-  const [isDonatePopupOpen, setIsDonatePopupOpen] = useState(false);
-
-  // State to store donation amount input
   const [donationAmount, setDonationAmount] = useState('');
-
-  // State to track whether the user has entered an input
   const [hasInput, setHasInput] = useState(false);
-
-  // State to store extra charges and gas fee
   const [extraChargesAmount, setExtraChargesAmount] = useState(0);
   const [gasFee, setGasFee] = useState(0);
-
-  // State to show/hide the cost breakdown
   const [showCostBreakdown, setShowCostBreakdown] = useState(false);
 
-  // State to store wallet address input
-  const [walletAddress, setWalletAddress] = useState('');
-
-  // Handle clicking on an image
   const handleImageClick = (image: ImageData) => {
     setSelectedImage(image);
   };
 
-  // Handle closing the image modal
   const handleModalClose = () => {
     setSelectedImage(null);
     setIsDonatePopupOpen(false);
   };
 
-  // Handle clicking the "Donate Now" button
   const handleDonateClick = () => {
     setIsDonatePopupOpen(true);
   };
 
-  // Handle donation amount input changes
   const handleDonationInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const amount = e.target.value;
     setDonationAmount(amount);
 
-    // Calculate gas fee and extra charges based on the input amount
     const parsedAmount = parseFloat(amount);
     if (!isNaN(parsedAmount) && parsedAmount > 0) {
       setHasInput(true);
@@ -100,31 +72,12 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
     }
   };
 
-  // Handle wallet address input changes
-  const handleWalletInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const address = e.target.value;
-    setWalletAddress(address);
-  };
-
   const handleConfirmClick = () => {
-    // Check if wallet address is provided
-    if (walletAddress.trim() === '') {
-      alert('Please enter your wallet address.');
-      return;
-    }
-  
-    // Calculate the final cost
-  const parsedAmount = parseFloat(donationAmount);
+    const parsedAmount = parseFloat(donationAmount);
     if (!isNaN(parsedAmount) && parsedAmount > 0) {
+      // Don't close the modal here
       const finalCost = parsedAmount + gasFee + extraChargesAmount;
-  
-      // Display the success message
-      alert(`${finalCost.toFixed(4)} sol has been successfully transferred.`);
-  
-      // You can perform additional actions here if needed
-  
-      // Reload the page
-      window.location.reload();
+      alert(`${finalCost.toFixed(4)} sol has been transferred successfully.`);
     } else {
       alert('Please enter a valid donation amount.');
     }
@@ -147,9 +100,8 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       </div>
 
       {selectedImage && (
-<<<<<<< HEAD
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-5 rounded-lg relative">
+          <div className="bg-white p-4 rounded-lg relative">
             <img
               src={selectedImage.src}
               alt={selectedImage.name}
@@ -157,49 +109,14 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             />
             <div>
               <h2 className="text-xl font-bold mt-2">{selectedImage.name}</h2>
-<<<<<<< HEAD
+              {/* Display image description */}
+              <p className="text-gray-600">{selectedImage.description}</p>
               <button
                 className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={handleDonateClick}
-=======
-              <p className="mt-2 text-sm">DESCRIPTION WRITTEN HERE</p>
-              <button
-                className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => setIsDonatePopupOpen(true)}
->>>>>>> 66c7e838a2e166fcb1164d16914a63a4d42fa7c7
               >
                 Donate Now
               </button>
-=======
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-900">
-          <div className="bg-black p-4 rounded flex">
-            <div>
-              <img
-                src={selectedImage.src}
-                alt={selectedImage.name}
-                style={{ maxWidth: '80vw', maxHeight: '70vh' }}
-              />
-            </div>
-            <div className="flex flex-col justify-between ml-4">
-              <div>
-                <h2 className="text-2xl font-bold">{selectedImage.name}</h2> {/* Increase font size */}
-                <p className="mt-2 text-lg">{selectedImage.description}</p> {/* Increase font size */}
-              </div>
-              <div>
-                <button
-                  className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => setIsDonatePopupOpen(true)}
-                >
-                  Donate Now
-                </button>
-                <button
-                  className="mt-4 ml-4 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={handleModalClose}
-                >
-                  Close
-                </button>
-              </div>
->>>>>>> 19d3e244c56df21bb7c9b0867c6249844ba4ac7c
             </div>
             <button
               onClick={handleModalClose}
@@ -213,7 +130,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
 
       {isDonatePopupOpen && (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-5 rounded-lg relative">
+          <div className="bg-white p-4 rounded-lg relative">
             <h2 className="text-2xl font-semibold mb-4 text-indigo-600">Donation Information</h2>
             <div className="mb-4">
               <label className="block text-gray-600">Donation Amount:</label>
@@ -222,17 +139,6 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
                 id="donation-input"
                 value={donationAmount}
                 onChange={handleDonationInputChange}
-                className="w-full border border-black rounded-lg px-4 py-2"
-                style={{ color: 'black' }}
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-600">Wallet Address:</label>
-              <input
-                type="text"
-                id="wallet-input"
-                value={walletAddress}
-                onChange={handleWalletInputChange}
                 className="w-full border border-black rounded-lg px-4 py-2"
                 style={{ color: 'black' }}
               />
@@ -272,15 +178,6 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
               Close
             </button>
             <div id="result" className="mt-4"></div>
-          </div>
-        </div>
-      )}
-
-
-      {isDonatePopupOpen && (
-        <div className="fixed inset-0 flex justify-center items-center bg-gray-900">
-          <div className="bg-black p-4 rounded">
-            <Donate closePopup={() => setIsDonatePopupOpen(false)} />
           </div>
         </div>
       )}
