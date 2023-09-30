@@ -151,7 +151,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
               <img
                 src={image.src}
                 alt={image.name}
-                className="w-full h-40 object-cover rounded-md mb-2"
+                className="w-full h-60 object-cover rounded-md mb-2"
               />
               <p className="text-lg font-semibold text-gray-800 text-black">{image.name}</p>
               <div className="flex justify-between mt-2">
