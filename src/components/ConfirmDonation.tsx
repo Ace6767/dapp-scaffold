@@ -72,7 +72,7 @@ const onClick = useCallback(async () => {
                 Wallet not connected
               </div>
               <span className="block group-disabled:hidden" >
-                Donate now
+                Donate
               </span>
             </button>
           </div>

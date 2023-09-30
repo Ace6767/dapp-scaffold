@@ -1,8 +1,11 @@
 import React, { FC, useState, useEffect } from 'react';
 import { viewAmountCollected } from 'components/ViewDonors';
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
+import { notify } from 'utils/notifications';
 
 interface BasicsViewProps {
-  opePopup: () => void;
+  openPopup: () => void;
 }
 
 interface ImageData {
@@ -12,15 +15,19 @@ interface ImageData {
   description: string;
   targetAmount: number;
   currentAmount: number | null;
+  receiverAddress: string; // Add a receiverAddress field
 }
 
 export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
+  const { connection } = useConnection();
+  const { publicKey, sendTransaction } = useWallet();
+
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
   const [isDonatePopupOpen, setIsDonatePopupOpen] = useState(false);
-  const [donationAmount, setDonationAmount] = useState('');
+  const [donationAmount, setDonationAmount] = useState<string>('');
   const [hasInput, setHasInput] = useState(false);
-  const [extraChargesAmount, setExtraChargesAmount] = useState(0);
-  const [gasFee, setGasFee] = useState(0);
+  const [extraChargesAmount, setExtraChargesAmount] = useState<number>(0);
+  const [gasFee, setGasFee] = useState<number>(0);
   const [showCostBreakdown, setShowCostBreakdown] = useState(false);
   const [imageData, setImageData] = useState<ImageData[]>([
     {
@@ -30,6 +37,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       description: 'Bob Ross has suffered great injuries and needs a donation for his medical fee.',
       targetAmount: 10,
       currentAmount: null,
+      receiverAddress: '9MDjubwJdpYNfJWE77NSpSuYbWA3eUnGWAy4K5wzLj5r', // Receiver address for the first image
     },
     {
       name: 'Burnt House',
@@ -38,6 +46,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       description: 'The fire has left the family shelterless, and money is needed for rebuilding.',
       targetAmount: 8,
       currentAmount: null,
+      receiverAddress: 'Ek3oLg6Mc5qH8K4ZLrDUZL7PMKtjeJnf54GdC9yrYGrx', // Receiver address for the second image
     },
     {
       name: 'College Funding',
@@ -46,16 +55,18 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       description: 'A teenage boy who wants to pursue his studies but lacks financial support.',
       targetAmount: 12,
       currentAmount: null,
+      receiverAddress: 'B3Zu9LJdEcvMwpk9AEVsBxuuWPPGp8iMH2nsWsDx43BU', // Receiver address for the third image
     },
   ]);
 
   useEffect(() => {
     async function fetchCurrentAmounts() {
       try {
-        const amount1 = await viewAmountCollected('9MDjubwJdpYNfJWE77NSpSuYbWA3eUnGWAy4K5wzLj5r');
-        const amount2 = await viewAmountCollected('Ek3oLg6Mc5qH8K4ZLrDUZL7PMKtjeJnf54GdC9yrYGrx');
-        const amount3 = await viewAmountCollected('B3Zu9LJdEcvMwpk9AEVsBxuuWPPGp8iMH2nsWsDx43BU');
-        
+        // Fetch current amounts for each image
+        const amount1 = await viewAmountCollected(imageData[0].receiverAddress);
+        const amount2 = await viewAmountCollected(imageData[1].receiverAddress);
+        const amount3 = await viewAmountCollected(imageData[2].receiverAddress);
+
         setImageData((prevImageData) => [
           {
             ...prevImageData[0],
@@ -109,13 +120,37 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
     }
   };
 
-  const handleConfirmClick = () => {
+  const handleConfirmClick = async () => {
+    if (!publicKey) {
+      notify({ type: 'error', message: 'Wallet not connected!' });
+      return;
+    }
+
     const parsedAmount = parseFloat(donationAmount);
     if (!isNaN(parsedAmount) && parsedAmount > 0) {
-      const finalCost = parsedAmount + gasFee + extraChargesAmount;
-      alert(`${finalCost.toFixed(4)} SOL has been transferred successfully.`);
+      try {
+        const recipientPublicKey = new PublicKey(selectedImage?.receiverAddress || ''); // Use selected image's receiverAddress
+        const lamports = Math.floor(parsedAmount * 1000000000); // Convert SOL to lamports
+        const instructions = [
+          SystemProgram.transfer({
+            fromPubkey: publicKey,
+            toPubkey: recipientPublicKey,
+            lamports: lamports, // Use lamports
+          }),
+        ];
+
+        const transaction = new Transaction().add(...instructions);
+        const signature = await sendTransaction(transaction, connection);
+        await connection.confirmTransaction(signature, 'confirmed');
+
+        notify({ type: 'success', message: 'Transaction successful!', txid: signature });
+        handleModalClose();
+      } catch (error: any) {
+        notify({ type: 'error', message: 'Transaction failed!', description: error?.message });
+        console.error('Transaction failed:', error);
+      }
     } else {
-      alert('Please enter a valid donation amount.');
+      notify({ type: 'error', message: 'Please enter a valid donation amount.' });
     }
   };
 
@@ -157,8 +192,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
               <div className="flex justify-between mt-2">
                 <p className="text-gray-600">Target: {image.targetAmount} SOL</p>
                 <p className="text-gray-600">
-                  <span>Raised:</span> {/* New line for "Raised" */}
-                  {image.currentAmount !== null ? `${image.currentAmount} SOL` : 'Loading...'}
+                  <span>Raised:</span> {image.currentAmount !== null ? `${image.currentAmount} SOL` : 'Loading...'}
                 </p>
               </div>
               {image.currentAmount !== null && (
@@ -247,12 +281,6 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
                 </button>
               )}
             </div>
-            <button
-              onClick={handleModalClose}
-              className="absolute bottom-4 right-10 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer"
-            >
-              Close
-            </button>
           </div>
         </div>
       )}
