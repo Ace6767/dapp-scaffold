@@ -234,7 +234,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
               <div className="mt-4">
                 <h3 className="text-lg font-semibold mb-2 text-black">Transaction History</h3>
                 <ul>
-                  {transactionHistory.slice(0, 3).map((transaction, index) => (
+                  {transactionHistory.slice(0, 2).map((transaction, index) => (
                     <li key={index} className="text-black border-t border-b py-2">
                       <div>
                         <strong>Wallet Address:</strong> {transaction.walletAddress}<br />
