@@ -16,19 +16,19 @@ const imageData: ImageData[] = [
     name: 'Bob Ross',
     src: 'https://images.prismic.io/hireup/afa55aee-b1db-486b-ad30-71557e58fe28_Steve+Ralph_broken+arm.JPG?auto=compress,format&rect=0,944,3024,2532&w=3024&h=2532',
     link: 'https://example.com/page1',
-    description: 'An image of Bob Ross with a broken arm.',
+    description: 'Bob Ross has suffered great injuries and need donation for his medical fee.',
   },
   {
     name: 'Burnt House',
     src: 'https://media.istockphoto.com/id/171255212/photo/burnt-house.jpg?s=612x612&w=0&k=20&c=Of5iL_GKFPi2bSeZFF4LLB5LCGzbaIOOqrppsrPABsY=',
     link: 'https://example.com/page2',
-    description: 'A photograph of a burnt house.',
+    description: 'The fire has left the family shelterless and money is needed for rebuilding',
   },
   {
     name: 'College Funding',
     src: 'https://media.discordapp.net/attachments/804328230378012703/1157052005404131408/image.png?ex=65173427&is=6515e2a7&hm=1463a29d1009619e2e11fb4b6057f3ae9dc1699962967802e17778e38ffa085e&=&width=584&height=545',
     link: 'https://example.com/page3',
-    description: 'An illustration related to college funding.',
+    description: 'A teenage boy who wants to pursue his studies but lack financial support',
   },
 ];
 
