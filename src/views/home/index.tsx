@@ -112,7 +112,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       }}
     >
       <div className="p-4 text-center flex-grow">
-        <h1 className="text-4xl font-semibold text-white-800 mb-4">Donation Images</h1>
+        <h1 className="text-4xl font-semibold text-white-800 mb-4">Fundraiser</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {imageData.map((image) => (
             <div
@@ -149,7 +149,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             <img
               src={selectedImage.src}
               alt={selectedImage.name}
-              className="w-full h-60 object-cover rounded-md mb-4"
+              className="w-full h-100 object-cover rounded-md mb-4"
             />
             <h2 className="text-2xl font-bold mb-2 text-gray-800">{selectedImage.name}</h2>
             <p className="text-gray-600">{selectedImage.description}</p>
@@ -170,6 +170,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
           </div>
         </div>
       )}
+
 
       {isDonatePopupOpen && (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-900 bg-opacity-50">
