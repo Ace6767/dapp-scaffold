@@ -1,10 +1,13 @@
 import React, { FC, useState, useEffect } from 'react';
 import { viewAmountCollected } from 'components/ViewDonors';
+import { ConfirmDonation } from 'components/ConfirmDonation'; // Import ConfirmDonation component
 
+// Define your component's props
 interface BasicsViewProps {
   openPopup: () => void;
 }
 
+// Define the data structure for your images
 interface ImageData {
   name: string;
   src: string;
@@ -14,7 +17,9 @@ interface ImageData {
   currentAmount: number | null;
 }
 
+// Define your main component
 export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
+  // Define state variables
   const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
   const [isDonatePopupOpen, setIsDonatePopupOpen] = useState(false);
   const [donationAmount, setDonationAmount] = useState('');
@@ -22,6 +27,9 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
   const [extraChargesAmount, setExtraChargesAmount] = useState(0);
   const [gasFee, setGasFee] = useState(0);
   const [showCostBreakdown, setShowCostBreakdown] = useState(false);
+  const [isConfirmDonationVisible, setIsConfirmDonationVisible] = useState(false); // New state for ConfirmDonation visibility
+
+  // Define your image data
   const [imageData, setImageData] = useState<ImageData[]>([
     {
       name: 'Bob Ross',
@@ -44,11 +52,12 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       src: 'https://media.discordapp.net/attachments/804328230378012703/1157052005404131408/image.png?ex=65173427&is=6515e2a7&hm=1463a29d1009619e2e11fb4b6057f3ae9dc1699962967802e17778e38ffa085e&=&width=584&height=545',
       link: 'https://example.com/page3',
       description: 'A teenage boy who wants to pursue his studies but lacks financial support.',
-      targetAmount: 12,
+      targetAmount: 5,
       currentAmount: null,
     },
   ]);
 
+  // Fetch current donation amounts on component mount
   useEffect(() => {
     async function fetchCurrentAmounts() {
       try {
@@ -78,19 +87,23 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
     fetchCurrentAmounts();
   }, []);
 
+  // Handle image click event
   const handleImageClick = (image: ImageData) => {
     setSelectedImage(image);
   };
 
+  // Handle modal close event
   const handleModalClose = () => {
     setSelectedImage(null);
     setIsDonatePopupOpen(false);
   };
 
+  // Handle donate button click event
   const handleDonateClick = () => {
     setIsDonatePopupOpen(true);
   };
 
+  // Handle donation input change event
   const handleDonationInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const amount = e.target.value;
     setDonationAmount(amount);
@@ -108,12 +121,34 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
       setExtraChargesAmount(0);
     }
   };
-
+  let selectedAddress = '';
+  // Handle confirm donation button click event
   const handleConfirmClick = () => {
+    const donate = parseInt(donationAmount);
     const parsedAmount = parseFloat(donationAmount);
     if (!isNaN(parsedAmount) && parsedAmount > 0) {
-      const finalCost = parsedAmount + gasFee + extraChargesAmount;
-      alert(`${finalCost.toFixed(4)} SOL has been transferred successfully.`);
+      
+
+      // Determine the selected address based on the selected image
+      if (selectedImage) {
+        switch (selectedImage.name) {
+          case 'Bob Ross':
+            selectedAddress = '9MDjubwJdpYNfJWE77NSpSuYbWA3eUnGWAy4K5wzLj5r';
+            break;
+          case 'Burnt House':
+            selectedAddress = 'Ek3oLg6Mc5qH8K4ZLrDUZL7PMKtjeJnf54GdC9yrYGrx';
+            break;
+          case 'College Funding':
+            selectedAddress = 'B3Zu9LJdEcvMwpk9AEVsBxuuWPPGp8iMH2nsWsDx43BU';
+            break;
+          default:
+            // Handle other cases or provide a default address
+            break;
+        }
+      }
+
+      // Set the state to make ConfirmDonation component visible
+      setIsConfirmDonationVisible(true);
     } else {
       alert('Please enter a valid donation amount.');
     }
@@ -154,22 +189,20 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
                 className="w-full h-40 object-cover rounded-md mb-2"
               />
               <p className="text-lg font-semibold text-gray-800 text-black">{image.name}</p>
-              <div className="flex justify-between mt-2">
+              <div className="flex flex-col mt-2">
                 <p className="text-gray-600">Target: {image.targetAmount} SOL</p>
-                <p className="text-gray-600">
-                  Raised: {image.currentAmount !== null ? `${image.currentAmount} SOL` : 'Loading...'}{' '}
-                </p>
+                <p className="text-gray-600">Raised: {image.currentAmount ?? 'Loading...'} SOL</p>
+                {image.currentAmount !== null && (
+                  <div className="relative mt-2 h-4 bg-gray-200 rounded-full">
+                    <div
+                      className="absolute h-4 bg-indigo-600 rounded-full"
+                      style={{
+                        width: `${(image.currentAmount / image.targetAmount) * 100}%`,
+                      }}
+                    ></div>
+                  </div>
+                )}
               </div>
-              {image.currentAmount !== null && (
-                <div className="relative mt-2 h-4 bg-gray-200 rounded-full">
-                  <div
-                    className="absolute h-4 bg-indigo-600 rounded-full"
-                    style={{
-                      width: `${(image.currentAmount / image.targetAmount) * 100}%`,
-                    }}
-                  ></div>
-                </div>
-              )}
             </div>
           ))}
         </div>
@@ -254,6 +287,11 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Conditionally render the ConfirmDonation component */}
+      {isConfirmDonationVisible && (
+        <ConfirmDonation amount={parseFloat(donationAmount)} ReceiverAddress={selectedAddress} />
       )}
     </div>
   );

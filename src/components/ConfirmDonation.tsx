@@ -11,7 +11,7 @@ export const ConfirmDonation: FC<SendTransactionProps> = ({ amount, ReceiverAddr
     const { connection } = useConnection();
     const { publicKey, sendTransaction } = useWallet();
 
-    const onClick = useCallback(async () => {
+const onClick = useCallback(async () => {
         if (!publicKey) {
             notify({ type: 'error', message: `Wallet not connected!` });
             console.log('error', `Send Transaction: Wallet not connected!`);
