@@ -168,7 +168,7 @@ export const BasicsView: FC<BasicsViewProps> = ({ openPopup }) => {
     <div
       className="min-h-screen flex flex-col"
       style={{
-        background: `url('https://cdn.wallpapersafari.com/36/1/Qq7bWJ.jpeg')`,
+        background: `url('https://images.unsplash.com/photo-1662541109467-a80473ab73e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2370&q=80')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed',
